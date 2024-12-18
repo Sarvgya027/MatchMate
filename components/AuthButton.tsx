@@ -6,12 +6,20 @@ import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 const AuthButton = () => {
-  const handleSignIn = async ({ provider }: Provider) => {
-    "use server";
-    const supabase = await createClient();
-    await supabase.auth.signInWithOAuth({
-      provider: "github"
-    })
+  const handleSignIn = async (provider: "github" | "google") => {
+    const supabase = createClient();
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+
+    if(error){
+      console.log(error.message)
+    }
+
+    
   };
 
   return (
