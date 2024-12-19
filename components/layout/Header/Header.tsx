@@ -1,5 +1,5 @@
-'use client'
-import React, { useMemo, useState } from 'react';
+'use client';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   AppBar,
   Box,
@@ -18,21 +18,27 @@ import {
   Avatar,
 } from '@mui/material';
 import { FcMenu } from 'react-icons/fc';
+import { usePathname, useRouter } from 'next/navigation';  
+import Logo from './Logo';
+import { createClient } from '@/utils/supabase/client';
 
 const Header = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md' ));
-  
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const pathname = usePathname();  
+  const router = useRouter();  
+
+
+  const [user, setUser] = useState<any>(null); // any for now, will be replaced with User type
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const [activeTab, setActiveTab] = useState('home');
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget as HTMLElement); 
+    setAnchorEl(event.currentTarget as HTMLElement);
   };
 
   const handleProfileMenuClose = () => {
@@ -40,40 +46,29 @@ const Header = () => {
   };
 
   const navigationLinks = useMemo(() => [
-    { title: 'Home', href: '#', id: 'home' },
-    { title: 'Discover', href: '#', id: 'discover' },
-    { title: 'About', href: '#', id: 'about' }
+    { title: 'Home', href: '/' },
+    { title: 'Discover', href: '/discover' },
+    { title: 'About', href: '/about' },
   ], []);
 
-  const getTabStyle = (tabId: String) => ({
-    color: activeTab === tabId ? theme.palette.primary.main : theme.palette.text.primary,
-    borderBottom: activeTab === tabId ? `2px solid ${theme.palette.primary.main}` : 'none',
+  const getTabStyle = (tabHref: string) => ({
+    color: pathname === tabHref ? theme.palette.text.primary : theme.palette.text.primary,
+    borderBottom: pathname === tabHref ? `2px solid ${theme.palette.primary.main}` : 'none',
     borderRadius: 0,
     '&:hover': {
       color: theme.palette.primary.light,
       background: 'transparent',
-      borderBottom: `2px solid ${theme.palette.primary.light}`
-    }
+      borderBottom: `2px solid ${theme.palette.primary.light}`,
+    },
   });
 
   const glassmorphismStyle = {
     background: 'rgba(30, 30, 30, 0.8)',
     backdropFilter: 'blur(8px)',
     borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)'
+    boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
   };
 
-  const Logo = () => (
-    <Typography
-      variant="h6"
-      sx={{
-        fontWeight: 'bold',
-        color: theme.palette.primary.main
-      }}
-    >
-      MatchMate
-    </Typography>
-  );
 
   return (
     <AppBar position="fixed" elevation={0} sx={glassmorphismStyle}>
@@ -85,9 +80,9 @@ const Header = () => {
             <Box sx={{ display: 'flex', gap: 2, flex: 1 }}>
               {navigationLinks.map((link) => (
                 <Button
-                  key={link.id}
-                  onClick={() => setActiveTab(link.id)}
-                  sx={getTabStyle(link.id)}
+                  key={link.href}
+                  onClick={() => router.push(link.href)}  
+                  sx={getTabStyle(link.href)}
                 >
                   {link.title}
                 </Button>
@@ -95,30 +90,14 @@ const Header = () => {
             </Box>
 
             {/* Centered Logo */}
-            <Box
-              sx={{
-                position: 'absolute',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 1,
-              }}
-            >
+            <Box sx={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', zIndex: 1 }}>
               <Logo />
             </Box>
 
             {/* Right side - Profile */}
             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-              <IconButton
-                onClick={handleProfileMenuOpen}
-                sx={{
-                  padding: 0.5,
-                  '&:hover': {
-                    background: 'rgba(255, 255, 255, 0.1)'
-                  }
-                }}
-              >
-                <Avatar>
-                </Avatar>
+              <IconButton onClick={handleProfileMenuOpen} sx={{ padding: 0.5, '&:hover': { background: 'rgba(255, 255, 255, 0.1)' } }}>
+                <Avatar />
               </IconButton>
             </Box>
           </>
@@ -131,28 +110,11 @@ const Header = () => {
             </Box>
 
             {/* Right side - Controls */}
-            <Box sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: 2
-            }}>
-              <IconButton
-                onClick={handleProfileMenuOpen}
-                sx={{
-                  padding: 0.5,
-                  '&:hover': {
-                    background: 'rgba(255, 255, 255, 0.1)'
-                  }
-                }}
-              >
-                <Avatar>
-                </Avatar>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <IconButton onClick={handleProfileMenuOpen} sx={{ padding: 0.5, '&:hover': { background: 'rgba(255, 255, 255, 0.1)' } }}>
+                <Avatar />
               </IconButton>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={handleDrawerToggle}
-              >
+              <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerToggle}>
                 <FcMenu />
               </IconButton>
             </Box>
@@ -169,8 +131,8 @@ const Header = () => {
               background: 'rgba(30, 30, 30, 0.95)',
               backdropFilter: 'blur(8px)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
-              mt: 1.5
-            }
+              mt: 2,
+            },
           }}
         >
           <MenuItem onClick={handleProfileMenuClose}>Profile</MenuItem>
@@ -184,31 +146,29 @@ const Header = () => {
           anchor="right"
           open={mobileOpen}
           onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true
-          }}
+          ModalProps={{ keepMounted: true }}
           PaperProps={{
             sx: {
               width: 240,
               background: 'rgba(30, 30, 30, 0.95)',
-              backdropFilter: 'blur(8px)'
-            }
+              backdropFilter: 'blur(8px)',
+            },
           }}
         >
           <List>
             {navigationLinks.map((link) => (
-              <ListItem 
-                key={link.id}
+              <ListItem
+                key={link.href}
                 onClick={() => {
-                  setActiveTab(link.id);
-                  handleDrawerToggle();
+                  router.push(link.href);  
+                  setMobileOpen(false);
                 }}
                 sx={{
-                  color: activeTab === link.id ? theme.palette.primary.main : theme.palette.text.primary,
+                  color: pathname === link.href ? theme.palette.primary.main : theme.palette.text.primary,
                   '&:hover': {
                     color: theme.palette.primary.light,
-                    background: 'rgba(255, 255, 255, 0.05)'
-                  }
+                    background: 'rgba(255, 255, 255, 0.05)',
+                  },
                 }}
               >
                 <ListItemText primary={link.title} />
