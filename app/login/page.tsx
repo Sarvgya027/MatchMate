@@ -1,20 +1,163 @@
-import AuthButton from "@/components/AuthButton";
-import { FaGithub } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import AuthButton from "@/components/auth/AuthButton";
+import StyledCard from "@/components/auth/StyleCard";
 
 const LoginPage = () => {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h1 className="text-2xl font-bold text-black text-center mb-6">
-          Welcome Back
-        </h1>
+    <Box
+      component="main"
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        bgcolor: "background.default",
+        backgroundImage: `
+          radial-gradient(circle at 10% 20%, rgba(0, 173, 181, 0.1) 0%, transparent 50%),
+          radial-gradient(circle at 90% 80%, rgba(255, 87, 34, 0.1) 0%, transparent 50%)
+        `,
+        padding: "40px",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* Animated background elements */}
+      <Box
+        sx={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          opacity: 0.1,
+          zIndex: 0,
+          background: `
+            repeating-linear-gradient(
+              45deg,
+              transparent,
+              transparent 40px,
+              rgba(0, 173, 181, 0.1) 40px,
+              rgba(0, 173, 181, 0.1) 80px
+            )
+          `,
+        }}
+      />
 
-        <div className="space-y-4">
+      {/* Floating geometric shapes */}
+      {[...Array(5)].map((_, i) => (
+        <Box
+          key={i}
+          sx={{
+            position: "absolute",
+            width: "100px",
+            height: "100px",
+            border: "2px solid rgba(0, 173, 181, 0.1)",
+            borderRadius: "20px",
+            transform: `rotate(${i * 45}deg)`,
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+            animation: "float 15s infinite linear",
+            animationDelay: `${i * 2}s`,
+            "@keyframes float": {
+              "0%": { transform: "translateY(0) rotate(0)" },
+              "50%": { transform: "translateY(-20px) rotate(180deg)" },
+              "100%": { transform: "translateY(0) rotate(360deg)" },
+            },
+          }}
+        />
+      ))}
+
+      {/* Main content with higher z-index */}
+      <Box sx={{ position: "relative", zIndex: 1 }}>
+        <Typography 
+          variant="h1" 
+          sx={{ 
+            mb: 2, 
+            pt: 2,
+            position: "relative",
+            "&::after": {
+              content: '""',
+              position: "absolute",
+              bottom: "-10px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "60px",
+              height: "4px",
+              background: "primary.main",
+              borderRadius: "2px",
+            }
+          }}
+        >
+          MatchMate
+        </Typography>
+
+        <Typography
+          variant="h6"
+          sx={{ 
+            mb: 4, 
+            maxWidth: "600px", 
+            textAlign: "center",
+            background: "linear-gradient(90deg, #00ADB5, #FF5722)",
+            backgroundClip: "text",
+            WebkitBackgroundClip: "text",
+            color: "transparent",
+            fontWeight: "500"
+          }}
+        >
+          Find your perfect gaming duo and dominate together
+        </Typography>
+
+        <StyledCard 
+          sx={{ 
+            maxWidth: "400px", 
+            width: "100%", 
+            p: 4,
+            backdropFilter: "blur(10px)",
+            background: "rgba(30, 30, 30, 0.8)",
+            border: "1px solid rgba(255, 255, 255, 0.1)",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.2)"
+          }}
+        >
+          <Typography 
+            variant="h4" 
+            sx={{ 
+              mb: 4, 
+              textAlign: "center",
+              background: "linear-gradient(135deg, #00ADB5, #FF5722)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              color: "transparent",
+            }}
+          >
+            Welcome Back, Gamer
+          </Typography>
+
           <AuthButton />
-        </div>
-      </div>
-    </main>
+        </StyledCard>
+
+        <Typography 
+          variant="body2" 
+          sx={{ 
+            mt: 4, 
+            textAlign: "center",
+            opacity: 0.8,
+            position: "relative",
+            "&::before, &::after": {
+              content: '""',
+              position: "absolute",
+              top: "50%",
+              width: "40px",
+              height: "1px",
+              background: "rgba(255, 255, 255, 0.2)",
+            },
+            "&::before": { right: "calc(100% + 20px)" },
+            "&::after": { left: "calc(100% + 20px)" },
+          }}
+        >
+          Level up your gaming experience with MatchMate
+        </Typography>
+      </Box>
+    </Box>
   );
 };
 
