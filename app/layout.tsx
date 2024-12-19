@@ -43,7 +43,6 @@ export default async function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            {/* {user && <Header user={user} />}  */}
             {children}
           </ThemeProvider>
         </AppRouterCacheProvider>

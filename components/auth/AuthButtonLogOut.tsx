@@ -16,7 +16,6 @@ const AuthButtonLogOut = () => {
     if (session) {
       await supabase.auth.signOut();
       router.push('/');
-      router.refresh();
     }
   };
 
