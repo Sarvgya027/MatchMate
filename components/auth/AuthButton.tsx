@@ -33,7 +33,7 @@ const AuthButton = () => {
             color="primary"
             sx={{
               "&:hover": {
-                bgcolor: "secondary.light",
+                bgcolor: "primary.light",
               },
             }}
           >

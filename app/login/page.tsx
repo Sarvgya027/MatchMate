@@ -23,27 +23,8 @@ const LoginPage = () => {
         overflow: "hidden",
       }}
     >
-      {/* Animated background elements */}
-      <Box
-        sx={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          opacity: 0.1,
-          zIndex: 0,
-          background: `
-            repeating-linear-gradient(
-              45deg,
-              transparent,
-              transparent 40px,
-              rgba(0, 173, 181, 0.1) 40px,
-              rgba(0, 173, 181, 0.1) 80px
-            )
-          `,
-        }}
-      />
 
-      {/* Floating geometric shapes */}
+      {/* Floating geometric shapes :) */}
       {[...Array(5)].map((_, i) => (
         <Box
           key={i}
@@ -56,7 +37,7 @@ const LoginPage = () => {
             transform: `rotate(${i * 45}deg)`,
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
-            animation: "float 15s infinite linear",
+            animation: "float 10s infinite linear",
             animationDelay: `${i * 2}s`,
             "@keyframes float": {
               "0%": { transform: "translateY(0) rotate(0)" },
@@ -67,25 +48,14 @@ const LoginPage = () => {
         />
       ))}
 
-      {/* Main content with higher z-index */}
+      {/* Main content  */}
       <Box sx={{ position: "relative", zIndex: 1 }}>
         <Typography 
           variant="h1" 
+          textAlign={"center"}
           sx={{ 
             mb: 2, 
             pt: 2,
-            position: "relative",
-            "&::after": {
-              content: '""',
-              position: "absolute",
-              bottom: "-10px",
-              left: "50%",
-              transform: "translateX(-50%)",
-              width: "60px",
-              height: "4px",
-              background: "primary.main",
-              borderRadius: "2px",
-            }
           }}
         >
           MatchMate
@@ -112,10 +82,8 @@ const LoginPage = () => {
             maxWidth: "400px", 
             width: "100%", 
             p: 4,
-            backdropFilter: "blur(10px)",
             background: "rgba(30, 30, 30, 0.8)",
             border: "1px solid rgba(255, 255, 255, 0.1)",
-            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.2)"
           }}
         >
           <Typography 
@@ -123,22 +91,18 @@ const LoginPage = () => {
             sx={{ 
               mb: 4, 
               textAlign: "center",
-              background: "linear-gradient(135deg, #00ADB5, #FF5722)",
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              color: "transparent",
             }}
           >
             Welcome Back, Gamer
           </Typography>
 
-          <AuthButton />
+          <AuthButton /> 
         </StyledCard>
 
         <Typography 
           variant="body2" 
           sx={{ 
-            mt: 4, 
+            mt: 8, 
             textAlign: "center",
             opacity: 0.8,
             position: "relative",
