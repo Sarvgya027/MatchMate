@@ -16,8 +16,10 @@ const AuthButtonLogOut = () => {
     if (session) {
       await supabase.auth.signOut();
       router.push('/');
+      router.refresh();
     }
   };
+
   return (
     <div>
       <Button variant="text" onClick={handleLogOut} color="secondary">

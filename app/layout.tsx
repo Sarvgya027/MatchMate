@@ -5,10 +5,6 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "@/src/theme";
 import { Roboto } from "next/font/google";
-import Header from "@/components/layout/Header/Header";
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
-import { getUserSession } from "@/helpers/getUserSession";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -38,7 +34,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const user = await getUserSession();
+  // const user = await getUserSession();
 
 
   return (
@@ -47,7 +43,7 @@ export default async function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Header />
+            {/* {user && <Header user={user} />}  */}
             {children}
           </ThemeProvider>
         </AppRouterCacheProvider>

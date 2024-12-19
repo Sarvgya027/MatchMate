@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   AppBar,
   Box,
@@ -21,15 +21,20 @@ import { FcMenu } from 'react-icons/fc';
 import { usePathname, useRouter } from 'next/navigation';  
 import Logo from './Logo';
 import { createClient } from '@/utils/supabase/client';
+import { User } from '@supabase/supabase-js';
+import AuthButtonLogOut from '@/components/auth/AuthButtonLogOut';
 
-const Header = () => {
+
+interface HeaderProps {
+  user: User;
+}
+
+const Header = ({ user } : HeaderProps) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const pathname = usePathname();  
   const router = useRouter();  
 
-
-  const [user, setUser] = useState<any>(null); // any for now, will be replaced with User type
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -137,8 +142,8 @@ const Header = () => {
         >
           <MenuItem onClick={handleProfileMenuClose}>Profile</MenuItem>
           <MenuItem onClick={handleProfileMenuClose}>Settings</MenuItem>
-          <MenuItem onClick={handleProfileMenuClose}>Logout</MenuItem>
-        </Menu>
+          <AuthButtonLogOut />
+        </Menu> 
 
         {/* Mobile Drawer */}
         <Drawer
