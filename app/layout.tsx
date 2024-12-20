@@ -5,6 +5,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "@/src/theme";
 import { Roboto } from "next/font/google";
+import { UserProvider } from "@/context/UserContext";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -33,17 +34,14 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  // const user = await getUserSession();
-
-
   return (
     <html lang="en">
       <body className={roboto.variable}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            {children}
+
+            <UserProvider>{children}</UserProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
