@@ -1,8 +1,14 @@
-'use client'
+"use client";
 import { UsersTable } from "@/types";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface UserContextProps {
   user: User | null;
@@ -14,11 +20,7 @@ interface UserContextProps {
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 const supabase = createClient();
 
-export const UserProvider = ({
-  children,
-}: {
-  children: ReactNode;
-}) => {
+export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [userDetails, setUserDetails] = useState<UsersTable | null>(null);
 
@@ -31,8 +33,8 @@ export const UserProvider = ({
 
         if (data?.session?.user) {
           const { data: userDetails, error: userDetailsError } = await supabase
-            .from('users')
-            .select('*')
+            .from("users")
+            .select("*")
             .single();
           if (userDetailsError) throw userDetailsError;
           setUserDetails(userDetails);
@@ -44,20 +46,23 @@ export const UserProvider = ({
 
     fetchUser();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setUser(session?.user || null);
-      // setUserDetails(userDetails || null);
-      if (session?.user) {
-        const { data: userDetails, error: userDetailsError } = await supabase
-          .from('users')
-          .select('*')
-          .single();
-        if (userDetailsError) throw userDetailsError;
-        setUserDetails(userDetails);
-      } else {
-        setUserDetails(null); // Clear userDetails when the user logs out
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (_event, session) => {
+        setUser(session?.user || null);
+        // setUserDetails(userDetails || null);
+        if (session?.user) {
+          const { data: userDetails, error: userDetailsError } = await supabase
+            .from("users")
+            .select("*")
+            .eq("email", session.user.email) // Fetch user by email or other unique field
+            .single();
+          if (userDetailsError) throw userDetailsError;
+          setUserDetails(userDetails);
+        } else {
+          setUserDetails(null); // Clear userDetails when the user logs out
+        }
       }
-    });
+    );
 
     return () => {
       authListener?.subscription?.unsubscribe();
@@ -65,7 +70,9 @@ export const UserProvider = ({
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, userDetails, setUser, setUserDetails }}>
+    <UserContext.Provider
+      value={{ user, userDetails, setUser, setUserDetails }}
+    >
       {children}
     </UserContext.Provider>
   );

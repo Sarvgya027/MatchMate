@@ -9,7 +9,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {user && <Header user={user} userDetails={userDetails} />}
+      {user && userDetails && <Header user={user} userDetails={userDetails} />}
       {children}
     </>
   );
