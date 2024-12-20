@@ -1,13 +1,15 @@
 "use client";
 
 import { createClient } from "@/utils/supabase/client";
-import { Button } from "@mui/material";
+import { MenuItem, ListItemIcon, ListItemText } from "@mui/material";
+import { RiLogoutBoxRFill } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 
 const supabase = createClient();
 
 const AuthButtonLogOut = () => {
   const router = useRouter();
+
   const handleLogOut = async () => {
     const {
       data: { session },
@@ -15,16 +17,17 @@ const AuthButtonLogOut = () => {
 
     if (session) {
       await supabase.auth.signOut();
-      router.push('/');
+      router.push("/");
     }
   };
 
   return (
-    <div>
-      <Button variant="text" onClick={handleLogOut} color="secondary">
-        Log Out
-      </Button>
-    </div>
+    <MenuItem onClick={handleLogOut}>
+      <ListItemIcon>
+        <RiLogoutBoxRFill size={18} />
+      </ListItemIcon>
+      <ListItemText primary="Log Out" />
+    </MenuItem>
   );
 };
 

@@ -23,13 +23,18 @@ import Logo from './Logo';
 import { createClient } from '@/utils/supabase/client';
 import { User } from '@supabase/supabase-js';
 import AuthButtonLogOut from '@/components/auth/AuthButtonLogOut';
+import Link from 'next/link';
+import { UsersTable } from '@/types';
 
 
 interface HeaderProps {
   user: User;
+  userDetails: UsersTable;
 }
 
-const Header = ({ user } : HeaderProps) => {
+const Header = ({ user, userDetails } : HeaderProps) => {
+  console.log('line 1',user)
+  console.log('line 2',userDetails)
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const pathname = usePathname();  
@@ -97,12 +102,15 @@ const Header = ({ user } : HeaderProps) => {
             {/* Centered Logo */}
             <Box sx={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', zIndex: 1 }}>
               <Logo />
+              <h1>{userDetails?.name}</h1>
             </Box>
 
             {/* Right side - Profile */}
             <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
               <IconButton onClick={handleProfileMenuOpen} sx={{ padding: 0.5, '&:hover': { background: 'rgba(255, 255, 255, 0.1)' } }}>
-                <Avatar />
+                <Avatar>
+                  
+                </Avatar>
               </IconButton>
             </Box>
           </>
@@ -140,8 +148,8 @@ const Header = ({ user } : HeaderProps) => {
             },
           }}
         >
-          <MenuItem onClick={handleProfileMenuClose}>Profile</MenuItem>
-          <MenuItem onClick={handleProfileMenuClose}>Settings</MenuItem>
+          <MenuItem onClick={handleProfileMenuClose}><Link href={'/profile'}>Profile</Link></MenuItem>
+          <MenuItem onClick={handleProfileMenuClose}><Link href={'/settings'}>Settings</Link></MenuItem>
           <AuthButtonLogOut />
         </Menu> 
 
