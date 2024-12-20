@@ -114,7 +114,6 @@ const Header = ({ user, userDetails }: HeaderProps) => {
               }}
             >
               <Logo />
-              <h1>{userDetails?.name}</h1>
             </Box>
 
             {/* Right side - Profile */}
