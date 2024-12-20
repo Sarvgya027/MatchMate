@@ -9,6 +9,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import toast from "react-hot-toast";
 
 interface UserContextProps {
   user: User | null;
@@ -35,12 +36,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
           const { data: userDetails, error: userDetailsError } = await supabase
             .from("users")
             .select("*")
+            .eq("email", data.session.user.email)
             .single();
           if (userDetailsError) throw userDetailsError;
           setUserDetails(userDetails);
         }
       } catch (error) {
         console.error("Error fetching user session:", error);
+        toast.error("Error fetching user session");
       }
     };
 
@@ -58,6 +61,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             .single();
           if (userDetailsError) throw userDetailsError;
           setUserDetails(userDetails);
+          
         } else {
           setUserDetails(null); // Clear userDetails when the user logs out
         }

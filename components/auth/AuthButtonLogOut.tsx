@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/client";
 import { MenuItem, ListItemIcon, ListItemText } from "@mui/material";
 import { RiLogoutBoxRFill } from "react-icons/ri";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const supabase = createClient();
 
@@ -18,6 +19,7 @@ const AuthButtonLogOut = () => {
     if (session) {
       await supabase.auth.signOut();
       router.push("/");
+      toast.success("Logged out successfully");
     }
   };
 

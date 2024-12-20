@@ -6,6 +6,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "@/src/theme";
 import { Roboto } from "next/font/google";
 import { UserProvider } from "@/context/UserContext";
+import { Toaster } from "react-hot-toast";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -41,7 +42,10 @@ export default async function RootLayout({
           <ThemeProvider theme={theme}>
             <CssBaseline />
 
-            <UserProvider>{children}</UserProvider>
+            <UserProvider>
+              <Toaster position="top-center" />
+              {children}
+            </UserProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
