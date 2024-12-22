@@ -9,6 +9,66 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      game_preferences: {
+        Row: {
+          created_at: string
+          game_id: string | null
+          id: string
+          is_active: boolean | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          game_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          game_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_preferences_game_id_fkey"
+            columns: ["game_id"]
+            isOneToOne: false
+            referencedRelation: "games"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "game_preferences_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["auth_user_id"]
+          },
+        ]
+      }
+      games: {
+        Row: {
+          created_at: string
+          game_name: string
+          id: string
+          image_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          game_name: string
+          id?: string
+          image_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          game_name?: string
+          id?: string
+          image_url?: string | null
+        }
+        Relationships: []
+      }
       users: {
         Row: {
           auth_user_id: string
@@ -17,7 +77,7 @@ export type Database = {
           created_at: string | null
           email: string
           name: string
-          user_name: string
+          user_name: string | null
         }
         Insert: {
           auth_user_id: string
@@ -26,7 +86,7 @@ export type Database = {
           created_at?: string | null
           email: string
           name: string
-          user_name: string
+          user_name?: string | null
         }
         Update: {
           auth_user_id?: string
@@ -35,7 +95,7 @@ export type Database = {
           created_at?: string | null
           email?: string
           name?: string
-          user_name?: string
+          user_name?: string | null
         }
         Relationships: []
       }

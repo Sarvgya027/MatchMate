@@ -98,6 +98,102 @@
 // }
 
 
+// import {
+//   Box,
+//   Typography,
+//   Card,
+//   CardContent,
+//   Button,
+//   Stack,
+// } from "@mui/material";
+// import { FaGamepad, FaUsers, FaTrophy } from "react-icons/fa";
+// import ModalComponent from "@/components/home/Modal";
+// import { getUserAndDetails } from "./actions/getUserServerAction";
+
+// // interface HomeProps {
+// //   user: User;
+// //   userDetails: UsersTable;
+// // }
+
+// export default async function Home() {
+
+//   const {user, userDetails} = await getUserAndDetails();
+
+//   return (
+//     <Box sx={{ display: "flex", minHeight: "calc(100vh - 64px)" }}>
+//       {/* Left Side - Action Area */}
+//       <Box
+//         sx={{
+//           width: "25%",
+//           p: 2,
+//           backgroundColor: "background.paper",
+//           borderRight: "1px solid",
+//           borderColor: "divider",
+//           borderTopRightRadius: 20,
+//           borderBottomRightRadius: 20,
+//         }}
+//       >
+//         <Stack spacing={3}>
+//           <Typography variant="h5" gutterBottom>
+//             Getting Started
+//           </Typography>
+//           <ModalComponent>
+//             <Button
+//               variant="contained"
+//               size="large"
+//               startIcon={<FaGamepad />}
+//               sx={{ py: 2, width: "100%" }}
+//             >
+//               ADD A NEW GAME
+//             </Button>
+//           </ModalComponent>
+
+//           <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+//             Add your favorite games and preferences to find the perfect gaming buddy!
+//           </Typography>
+//         </Stack>
+//       </Box>
+
+//       {/* Right Side - Content Area */}
+//       <Box sx={{ flex: 1, p: 4 }}>
+//         <Typography variant="h3" component="h1" gutterBottom>
+//           Welcome Back, {userDetails?.name}!
+//         </Typography>
+//         <Typography variant="h6" color="text.secondary" gutterBottom>
+//           Let's find you your next gaming buddy
+//         </Typography>
+
+//         <Stack direction={{ xs: "column", md: "row" }} spacing={3} sx={{ mt: 4 }}>
+//           <Card sx={{ flex: 1 }} elevation={3}>
+//             <CardContent sx={{ textAlign: "center", py: 3 }}>
+//               <FaGamepad size={40} style={{ color: "#1976d2", marginBottom: "16px" }} />
+//               <Typography variant="h6" gutterBottom>
+//                 Active Games
+//               </Typography>
+//               <Typography variant="h2" color="primary.main">
+//                 0
+//               </Typography>
+//             </CardContent>
+//           </Card>
+
+//           <Card sx={{ flex: 1 }} elevation={3}>
+//             <CardContent sx={{ textAlign: "center", py: 3 }}>
+//               <FaUsers size={40} style={{ color: "#1976d2", marginBottom: "16px" }} />
+//               <Typography variant="h6" gutterBottom>
+//                 Gaming Friends
+//               </Typography>
+//               <Typography variant="h2" color="primary.main">
+//                 0
+//               </Typography>
+//             </CardContent>
+//           </Card>
+
+//         </Stack>
+//       </Box>
+//     </Box>
+//   );
+// }
+
 import {
   Box,
   Typography,
@@ -110,84 +206,173 @@ import { FaGamepad, FaUsers, FaTrophy } from "react-icons/fa";
 import ModalComponent from "@/components/home/Modal";
 import { getUserAndDetails } from "./actions/getUserServerAction";
 
-// interface HomeProps {
-//   user: User;
-//   userDetails: UsersTable;
-// }
-
 export default async function Home() {
-
-  const {user, userDetails} = await getUserAndDetails();
+  const { user, userDetails } = await getUserAndDetails();
 
   return (
-    <Box sx={{ display: "flex", minHeight: "calc(100vh - 64px)" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: { xs: "column", md: "row" },
+        minHeight: { xs: "100%", md: "calc(100vh - 64px)" },
+      }}
+    >
       {/* Left Side - Action Area */}
       <Box
         sx={{
-          width: "25%",
+          width: { xs: "100%", md: "25%" },
           p: 2,
           backgroundColor: "background.paper",
-          borderRight: "1px solid",
+          borderRight: { xs: "none", md: "1px solid" },
+          borderBottom: { xs: "1px solid", md: "none" },
           borderColor: "divider",
-          borderTopRightRadius: 20,
-          borderBottomRightRadius: 20,
+          borderTopRightRadius: { xs: 0, md: 20 },
+          borderBottomRightRadius: { xs: 0, md: 20 },
         }}
       >
-        <Stack spacing={3}>
+        <Stack spacing={3} sx={{ maxWidth: { xs: "100%", md: "none" } }}>
           <Typography variant="h5" gutterBottom>
             Getting Started
           </Typography>
           <ModalComponent>
             <Button
               variant="contained"
-              size="large"
+              size="small"
               startIcon={<FaGamepad />}
-              sx={{ py: 2, width: "100%" }}
+              sx={{
+                py: 2,
+                width: "100%",
+              }}
             >
               ADD A NEW GAME
             </Button>
           </ModalComponent>
 
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-            Add your favorite games and preferences to find the perfect gaming buddy!
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              mt: 2,
+              display: { xs: "none", sm: "block" },
+            }}
+          >
+            Add your favorite games and preferences to find the perfect gaming
+            buddy!
           </Typography>
         </Stack>
       </Box>
 
       {/* Right Side - Content Area */}
-      <Box sx={{ flex: 1, p: 4 }}>
-        <Typography variant="h3" component="h1" gutterBottom>
-          Welcome Back, {userDetails?.name}!
-        </Typography>
-        <Typography variant="h6" color="text.secondary" gutterBottom>
-          Let's find you your next gaming buddy
-        </Typography>
+      <Box
+        sx={{
+          flex: 1,
+          p: { xs: 2, sm: 3, md: 4 },
+          width: "100%",
+        }}
+      >
+        <Stack spacing={2} sx={{ mb: 4 }}>
+          <Typography
+            variant="h3"
+            component="h1"
+            sx={{
+              fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
+            }}
+          >
+            Welcome Back, {userDetails?.name}!
+          </Typography>
+          <Typography
+            variant="h6"
+            color="text.secondary"
+            sx={{
+              fontSize: { xs: "1rem", sm: "1.25rem" },
+            }}
+          >
+            Let's find you your next gaming buddy
+          </Typography>
+        </Stack>
 
-        <Stack direction={{ xs: "column", md: "row" }} spacing={3} sx={{ mt: 4 }}>
-          <Card sx={{ flex: 1 }} elevation={3}>
-            <CardContent sx={{ textAlign: "center", py: 3 }}>
-              <FaGamepad size={40} style={{ color: "#1976d2", marginBottom: "16px" }} />
-              <Typography variant="h6" gutterBottom>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={{ xs: 2, sm: 3 }}
+          sx={{
+            mt: { xs: 2, md: 4 },
+          }}
+        >
+          <Card
+            sx={{
+              flex: 1,
+              minWidth: { xs: "100%", sm: "200px" },
+            }}
+            elevation={3}
+          >
+            <CardContent
+              sx={{
+                textAlign: "center",
+                py: { xs: 2, sm: 3 },
+              }}
+            >
+              <FaGamepad
+                size={32}
+                style={{ color: "#00ADB5", marginBottom: "16px" }}
+              />
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
+                  fontSize: { xs: "1rem", sm: "1.25rem" },
+                }}
+              >
                 Active Games
               </Typography>
-              <Typography variant="h2" color="primary.main">
+              <Typography
+                variant="h2"
+                color="primary.main"
+                sx={{
+                  fontSize: { xs: "2.5rem", sm: "3.75rem" },
+                }}
+              >
                 0
               </Typography>
             </CardContent>
           </Card>
 
-          <Card sx={{ flex: 1 }} elevation={3}>
-            <CardContent sx={{ textAlign: "center", py: 3 }}>
-              <FaUsers size={40} style={{ color: "#1976d2", marginBottom: "16px" }} />
-              <Typography variant="h6" gutterBottom>
+          <Card
+            sx={{
+              flex: 1,
+              minWidth: { xs: "100%", sm: "200px" },
+            }}
+            elevation={3}
+          >
+            <CardContent
+              sx={{
+                textAlign: "center",
+                py: { xs: 2, sm: 3 },
+              }}
+            >
+              <FaUsers
+                size={32}
+                style={{ color: "#00ADB5", marginBottom: "16px" }}
+              />
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
+                  fontSize: { xs: "1rem", sm: "1.25rem" },
+                }}
+              >
                 Gaming Friends
               </Typography>
-              <Typography variant="h2" color="primary.main">
+              <Typography
+                variant="h2"
+                color="primary.main"
+                sx={{
+                  fontSize: { xs: "2.5rem", sm: "3.75rem" },
+                }}
+              >
                 0
               </Typography>
             </CardContent>
           </Card>
-
         </Stack>
       </Box>
     </Box>
