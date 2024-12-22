@@ -32,8 +32,8 @@ interface HeaderProps {
 }
 
 const Header = ({ user, userDetails }: HeaderProps) => {
-  console.log("line 1", user);
-  console.log("line 2", userDetails);
+  // console.log("line 1", user);
+  // console.log("line 2", userDetails);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const pathname = usePathname();
